@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Selamat Ulang Tahun Jarni cintaku</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat&display=swap');{ box-sizing: border-box; }
+
+
+body, html { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background: #000; color: #f5f5f5; overflow: hidden; }
+
+#bgVideo { position: fixed; top:0; left:0; width: 100%; height: 100%; object-fit: cover; z-index: -2; filter: brightness(0.6); }
+
+#overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.9)); z-index: -1; }
+
+.splash { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.85); z-index: 10; padding: 0 30px; text-align: center; transition: opacity 1s ease; }
+
+.splash.hide { opacity: 0; pointer-events: none; }
+
+.splash p { font-size: 1.2rem; line-height: 1.6; max-width: 600px; margin-bottom: 2em; }
+
+.splash button { padding: 14px 32px; border: none; border-radius: 30px; font-size: 1.1rem; background: #f25c54; color: white; cursor: pointer; font-weight: bold; }
+
+.card { position: relative; width: 90vw; max-width: 420px; background: rgba(255, 255, 255, 0.12); border-radius: 25px; padding: 30px 25px 50px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); text-align: center; margin: auto; top: 10vh; backdrop-filter: blur(12px); z-index: 1; display: none; transition: opacity 1s ease; }
+
+.card.fade-out { opacity: 0; }
+
+.final-photo { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; justify-content: center; align-items: center; z-index: 15; animation: fadeIn 2s ease forwards; }
+
+.final-photo img { max-width: 90%; max-height: 90%; border-radius: 20px; box-shadow: 0 0 30px rgba(255, 255, 255, 0.3); position: absolute; opacity: 0; transition: opacity 1s ease, transform 1s ease; }
+
+.final-photo img.active { opacity: 1; z-index: 1; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+h1 { font-family: 'Great Vibes', cursive; font-size: 3.2rem; margin-bottom: 0.4em; user-select: none; }
+
+#message { font-size: 1.2rem; line-height: 1.5; min-height: 5em; white-space: pre-wrap; margin-bottom: 25px; }
+
+#btnCelebrate { padding: 16px 36px; border-radius: 40px; border: none; background: #f25c54; color: white; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: background 0.3s ease; user-select: none; }
+
+#btnCelebrate:disabled { opacity: 0.6; cursor: not-allowed; } </style>
+
+</head>
+<body><video autoplay muted loop id="bgVideo" src="https://cdn.videvo.net/videvo_files/video/free/2019-10/small_watermarked/191001_01_Bokeh_4k_001_preview.webm"></video>
+
+<div id="overlay"></div>
+<canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:5;"></canvas><div class="splash" id="splash">
+  <p>
+    Aku menyiapkan sesuatu...
+    Yang hanya untukmu.
+    Siap untuk kejutan kecil ini?
+  </p>
+  <button onclick="startCard()">Lihat Rahasianya</button>
+</div><div class="card" id="card">
+  <h1>Happy Birthday, Jarni cintaku!</h1>
+  <div id="message"></div>
+  <button id="btnCelebrate" disabled>Rayakan!</button>
+</div><div class="final-photo" id="finalPhoto">
+  <img src="https://i.imgur.com/9J3PvIy.jpeg" class="active" alt="Foto 1">
+  <img src="https://i.imgur.com/K1SKsa2.jpeg" alt="Foto 2">
+  <img src="https://i.imgur.com/i2d3EPn.jpeg" alt="Foto 3">
+</div><audio id="romanticMusic" loop preload="auto">
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+  Browser kamu tidak mendukung audio.
+</audio><script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script><script>
+  const splash = document.getElementById('splash');
+  const card = document.getElementById('card');
+  const btn = document.getElementById('btnCelebrate');
+  const romanticMusic = document.getElementById('romanticMusic');
+  const messageEl = document.getElementById('message');
+  const finalPhoto = document.getElementById('finalPhoto');
+  const photos = finalPhoto.querySelectorAll('img');
+
+  const messages = [
+    "Jarni cintaku...",
+    "Hari ini bukan sekadar ulang tahunmu,",
+    "tapi hari di mana semesta menghadiahkanku cinta terindah.",
+    "Setiap senyummu adalah rumah,",
+    "dan setiap tatapanmu adalah damai yang tak kutemukan di tempat lain.",
+    "Terima kasih telah menjadi bagian dari hidupku,",
+    "dan izinkan aku mencintaimu, lebih dari hari kemarin,",
+    "dan kurang dari besok.",
+    "Selamat ulang tahun, Jarni cintaku.",
+    "Kamu adalah anugerah terbaik yang pernah kuterima."
+  ];
+
+  function startCard() {
+    splash.classList.add('hide');
+    setTimeout(() => {
+      splash.style.display = 'none';
+      card.style.display = 'block';
+      typeMessage();
+    }, 1000);
+  }
+
+  let messageIndex = 0;
+  let charIndex = 0;
+
+  function typeMessage() {
+    if (messageIndex >= messages.length) {
+      btn.disabled = false;
+      return;
+    }
+    let currentMessage = messages[messageIndex];
+    if (charIndex < currentMessage.length) {
+      messageEl.textContent += currentMessage.charAt(charIndex);
+      charIndex++;
+      setTimeout(typeMessage, 50);
+    } else {
+      messageEl.textContent += "\n\n";
+      messageIndex++;
+      charIndex = 0;
+      setTimeout(typeMessage, 500);
+    }
+  }
+
+  btn.addEventListener('click', () => {
+    const duration = 3 * 1000;
+    const end = Date.now() + duration;
+    (function frame() {
+      confetti({
+        particleCount: 5,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+      });
+      confetti({
+        particleCount: 5,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+      });
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
+
+    card.classList.add('fade-out');
+    setTimeout(() => {
+      card.style.display = 'none';
+      romanticMusic.play().catch((e) => {
+        console.error("Audio gagal diputar: ", e);
+      });
+      finalPhoto.style.display = 'flex';
+      startSlideshow();
+    }, 1500);
+  });
+
+  function startSlideshow() {
+    let current = 0;
+    const effects = ['scale(1.1)', 'rotate(2deg)', 'translateX(5px)', 'rotate(-2deg)', 'scale(0.95)', 'translateY(5px)'];
+    setInterval(() => {
+      photos[current].classList.remove('active');
+      photos[current].style.transform = '';
+      current = (current + 1) % photos.length;
+      photos[current].classList.add('active');
+      const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+      photos[current].style.transform = randomEffect;
+    }, 1500);
+  }
+</script></body>
+</html>
