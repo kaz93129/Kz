@@ -1,79 +1,167 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Selamat Ulang Tahun Jarni cintaku</title>
+<title>Kartu Ucapan Ulang Tahun</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat&display=swap');{ box-sizing: border-box; }
+  /* Latar belakang gelap dinamis dengan gradien animasi */
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
+  body, html {
+    margin: 0; padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #eee;
+    overflow: hidden;
+  }
 
-body, html { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background: #000; color: #f5f5f5; overflow: hidden; }
+  /* Splash Screen */
+  #splash {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(270deg, #0b0c10, #1c1f26, #0b0c10);
+    background-size: 600% 600%;
+    animation: gradientShift 30s ease infinite;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    text-align: center;
+  }
 
-#bgVideo { position: fixed; top:0; left:0; width: 100%; height: 100%; object-fit: cover; z-index: -2; filter: brightness(0.6); }
+  #splash h1 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+  }
 
-#overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.9)); z-index: -1; }
+  #openBtn {
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 30px;
+    background: #ff3366;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  #openBtn:hover {
+    background: #ff5588;
+  }
 
-.splash { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.85); z-index: 10; padding: 0 30px; text-align: center; transition: opacity 1s ease; }
+  /* Main container hidden initially */
+  #mainContainer {
+    display: none;
+    height: 100%;
+    background: linear-gradient(270deg, #0b0c10, #1c1f26, #0b0c10);
+    background-size: 600% 600%;
+    animation: gradientShift 30s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #eee;
+  }
 
-.splash.hide { opacity: 0; pointer-events: none; }
+  .container {
+    max-width: 360px;
+    padding: 20px;
+    background: rgba(15, 17, 22, 0.7);
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(255 255 255 / 0.1);
+    text-align: center;
+    user-select: none;
+  }
 
-.splash p { font-size: 1.2rem; line-height: 1.6; max-width: 600px; margin-bottom: 2em; }
+  .message {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    min-height: 220px;
+    white-space: pre-wrap;
+  }
 
-.splash button { padding: 14px 32px; border: none; border-radius: 30px; font-size: 1.1rem; background: #f25c54; color: white; cursor: pointer; font-weight: bold; }
+  .typing {
+    border-right: 2px solid #eee;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
 
-.card { position: relative; width: 90vw; max-width: 420px; background: rgba(255, 255, 255, 0.12); border-radius: 25px; padding: 30px 25px 50px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); text-align: center; margin: auto; top: 10vh; backdrop-filter: blur(12px); z-index: 1; display: none; transition: opacity 1s ease; }
+  button {
+    margin-top: 20px;
+    padding: 10px 25px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 30px;
+    background: #ff3366;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+  button:hover {
+    background: #ff5588;
+  }
 
-.card.fade-out { opacity: 0; }
-
-.final-photo { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; justify-content: center; align-items: center; z-index: 15; animation: fadeIn 2s ease forwards; }
-
-.final-photo img { max-width: 90%; max-height: 90%; border-radius: 20px; box-shadow: 0 0 30px rgba(255, 255, 255, 0.3); position: absolute; opacity: 0; transition: opacity 1s ease, transform 1s ease; }
-
-.final-photo img.active { opacity: 1; z-index: 1; }
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-h1 { font-family: 'Great Vibes', cursive; font-size: 3.2rem; margin-bottom: 0.4em; user-select: none; }
-
-#message { font-size: 1.2rem; line-height: 1.5; min-height: 5em; white-space: pre-wrap; margin-bottom: 25px; }
-
-#btnCelebrate { padding: 16px 36px; border-radius: 40px; border: none; background: #f25c54; color: white; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: background 0.3s ease; user-select: none; }
-
-#btnCelebrate:disabled { opacity: 0.6; cursor: not-allowed; } </style>
-
+  #confetti {
+    pointer-events: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 9999;
+  }
+</style>
 </head>
-<body><video autoplay muted loop id="bgVideo" src="https://cdn.videvo.net/videvo_files/video/free/2019-10/small_watermarked/191001_01_Bokeh_4k_001_preview.webm"></video>
+<body>
 
-<div id="overlay"></div>
-<canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:5;"></canvas><div class="splash" id="splash">
-  <p>
-    Aku menyiapkan sesuatu...
-    Yang hanya untukmu.
-    Siap untuk kejutan kecil ini?
-  </p>
-  <button onclick="startCard()">Lihat Rahasianya</button>
-</div><div class="card" id="card">
-  <h1>Happy Birthday, Jarni cintaku!</h1>
-  <div id="message"></div>
-  <button id="btnCelebrate" disabled>Rayakan!</button>
-</div><div class="final-photo" id="finalPhoto">
-  <img src="https://i.imgur.com/9J3PvIy.jpeg" class="active" alt="Foto 1">
-  <img src="https://i.imgur.com/K1SKsa2.jpeg" alt="Foto 2">
-  <img src="https://i.imgur.com/i2d3EPn.jpeg" alt="Foto 3">
-</div><audio id="romanticMusic" loop preload="auto">
+<!-- Splash Screen -->
+<div id="splash">
+  <h1>Rahasia di balik hari ini...</h1>
+  <button id="openBtn">Buka Rahasia</button>
+</div>
+
+<!-- Main Content -->
+<div id="mainContainer">
+  <div class="container">
+    <div id="message" class="message typing"></div>
+    <button id="rayakanBtn">Rayakan</button>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2021/09/22/audio_4737c0a0f3.mp3?filename=romantic-piano-123.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+
+<audio id="romanticMusic" loop preload="auto">
   <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
   Browser kamu tidak mendukung audio.
-</audio><script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script><script>
-  const splash = document.getElementById('splash');
-  const card = document.getElementById('card');
-  const btn = document.getElementById('btnCelebrate');
-  const romanticMusic = document.getElementById('romanticMusic');
-  const messageEl = document.getElementById('message');
-  const finalPhoto = document.getElementById('finalPhoto');
-  const photos = finalPhoto.querySelectorAll('img');
+</audio>
 
-  const messages = [
-    "Jarni cintaku...",
+<script>
+  const splash = document.getElementById('splash');
+  const openBtn = document.getElementById('openBtn');
+  const mainContainer = document.getElementById('mainContainer');
+  const messageEl = document.getElementById('message');
+  const rayakanBtn = document.getElementById('rayakanBtn');
+  const music = document.getElementById('music');
+  const confettiCanvas = document.getElementById('confetti');
+  const ctx = confettiCanvas.getContext('2d');
+
+  const lines = [
     "Hari ini bukan sekadar ulang tahunmu,",
     "tapi hari di mana semesta menghadiahkanku cinta terindah.",
     "Setiap senyummu adalah rumah,",
@@ -85,79 +173,189 @@ h1 { font-family: 'Great Vibes', cursive; font-size: 3.2rem; margin-bottom: 0.4e
     "Kamu adalah anugerah terbaik yang pernah kuterima."
   ];
 
-  function startCard() {
-    splash.classList.add('hide');
-    setTimeout(() => {
-      splash.style.display = 'none';
-      card.style.display = 'block';
-      typeMessage();
-    }, 1000);
-  }
-
-  let messageIndex = 0;
+  // Typewriter effect variables
+  let lineIndex = 0;
   let charIndex = 0;
 
-  function typeMessage() {
-    if (messageIndex >= messages.length) {
-      btn.disabled = false;
-      return;
-    }
-    let currentMessage = messages[messageIndex];
-    if (charIndex < currentMessage.length) {
-      messageEl.textContent += currentMessage.charAt(charIndex);
-      charIndex++;
-      setTimeout(typeMessage, 50);
+  function typeWriter() {
+    if (lineIndex < lines.length) {
+      if (charIndex < lines[lineIndex].length) {
+        messageEl.textContent += lines[lineIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriter, 40);
+      } else {
+        messageEl.textContent += "\n";
+        lineIndex++;
+        charIndex = 0;
+        setTimeout(typeWriter, 400);
+      }
     } else {
-      messageEl.textContent += "\n\n";
-      messageIndex++;
-      charIndex = 0;
-      setTimeout(typeMessage, 500);
+      rayakanBtn.disabled = false;
+      rayakanBtn.style.cursor = "pointer";
     }
   }
 
-  btn.addEventListener('click', () => {
-    const duration = 3 * 1000;
-    const end = Date.now() + duration;
-    (function frame() {
-      confetti({
-        particleCount: 5,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0 },
-      });
-      confetti({
-        particleCount: 5,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1 },
-      });
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    })();
+  rayakanBtn.disabled = true;
+  rayakanBtn.style.cursor = "wait";
 
-    card.classList.add('fade-out');
+  // Confetti setup
+  let confettiElements = [];
+  const colors = ['#ff3366', '#ff5588', '#ff88aa', '#fff0f5', '#cc6699'];
+
+  function resizeCanvas() {
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function randomRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  class Confetti {
+    constructor() {
+      this.x = randomRange(0, confettiCanvas.width);
+      this.y = randomRange(-20, confettiCanvas.height);
+      this.size = randomRange(7, 12);
+      this.speed = randomRange(2, 5);
+      this.color = colors[Math.floor(Math.random() * colors.length)];
+      this.opacity = randomRange(0.7, 1);
+      this.swing = randomRange(0.05, 0.12);
+      this.angle = 0;
+      this.spinSpeed = randomRange(0.1, 0.3);
+    }
+    update() {
+      this.y += this.speed;
+      this.x += Math.sin(this.angle) * this.swing * 10;
+      this.angle += this.spinSpeed;
+      if (this.y > confettiCanvas.height) {
+        this.y = -this.size;
+        this.x = randomRange(0, confettiCanvas.width);
+      }
+    }
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.opacity;
+      ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size / 2);
+      ctx.restore();
+    }
+  }
+
+  function initConfetti() {
+    confettiElements = [];
+    for(let i=0; i<100; i++) {
+      confettiElements.push(new Confetti());
+    }
+  }
+  initConfetti();
+
+  function animateConfetti() {
+    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    confettiElements.forEach(c => {
+      c.update();
+      c.draw();
+    });
+    requestAnimationFrame(animateConfetti);
+  }
+
+  // Splash open button click
+  openBtn.addEventListener('click', () => {
+    splash.style.opacity = '0';
     setTimeout(() => {
-      card.style.display = 'none';
-      romanticMusic.play().catch((e) => {
-        console.error("Audio gagal diputar: ", e);
-      });
-      finalPhoto.style.display = 'flex';
-      startSlideshow();
-    }, 1500);
+      splash.style.display = 'none';
+      mainContainer.style.display = 'flex';
+      typeWriter();
+    }, 800);
   });
 
+  // Rayakan button click
+  let confettiRunning = false;
+  rayakanBtn.addEventListener('click', () => {
+    if (!confettiRunning) {
+      music.volume = 0.3;
+      music.play();
+      confettiRunning = true;
+      animateConfetti();
+      rayakanBtn.disabled = true;
+      rayakanBtn.style.cursor = "wait";
+      // Fade out message container
+      const container = document.querySelector('.container');
+      container.style.transition = 'opacity 1.5s ease';
+      container.style.opacity = '0';
+
+      setTimeout(() => {
+        container.style.display = 'none';
+        startSlideshow();
+      }, 1500);
+    }
+  });
+
+  // Slideshow setup
+  const images = [
+    'https://i.imgur.com/9J3PvIy.jpeg',
+    'https://i.imgur.com/K1SKsa2.jpeg',
+    'https://i.imgur.com/i2d3EPn.jpeg'
+  ];
+
+  let slideIndex = 0;
+
   function startSlideshow() {
-    let current = 0;
-    const effects = ['scale(1.1)', 'rotate(2deg)', 'translateX(5px)', 'rotate(-2deg)', 'scale(0.95)', 'translateY(5px)'];
-    setInterval(() => {
-      photos[current].classList.remove('active');
-      photos[current].style.transform = '';
-      current = (current + 1) % photos.length;
-      photos[current].classList.add('active');
-      const randomEffect = effects[Math.floor(Math.random() * effects.length)];
-      photos[current].style.transform = randomEffect;
-    }, 1500);
+    const slideContainer = document.createElement('div');
+    slideContainer.style.position = 'fixed';
+    slideContainer.style.top = '0';
+    slideContainer.style.left = '0';
+    slideContainer.style.width = '100vw';
+    slideContainer.style.height = '100vh';
+    slideContainer.style.background = '#000';
+    slideContainer.style.display = 'flex';
+    slideContainer.style.justifyContent = 'center';
+    slideContainer.style.alignItems = 'center';
+    slideContainer.style.overflow = 'hidden';
+    slideContainer.style.zIndex = '10001';
+    document.body.appendChild(slideContainer);
+
+    const img = document.createElement('img');
+    img.src = images[slideIndex];
+    img.style.maxWidth = '90vw';
+    img.style.maxHeight = '90vh';
+    img.style.borderRadius = '20px';
+    img.style.transition = 'all 1s ease';
+    slideContainer.appendChild(img);
+
+    function nextSlide() {
+      // efek transisi acak
+      const effects = [
+        'opacity 1s ease',
+        'transform 1s ease',
+        'filter 1s ease',
+        'opacity 1s ease, transform 1s ease',
+      ];
+      const effect = effects[Math.floor(Math.random() * effects.length)];
+
+      img.style.transition = effect;
+      img.style.opacity = '0';
+      img.style.transform = 'scale(0.8)';
+
+      setTimeout(() => {
+        slideIndex = (slideIndex + 1) % images.length;
+        img.src = images[slideIndex];
+        img.style.opacity = '1';
+        img.style.transform = 'scale(1)';
+
+        // efek visual tambahan: saturasi dan blur acak
+        const saturate = 0.8 + Math.random() * 0.4; // 0.8-1.2
+        const blur = Math.random() * 1.5; // 0-1.5px
+        img.style.filter = `saturate(${saturate}) blur(${blur}px)`;
+      }, 1000);
+    }
+
+    setInterval(nextSlide, 2000);
   }
-</script></body>
+</script>
+
+</body>
 </html>
